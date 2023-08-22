@@ -1,16 +1,17 @@
 package com.example.demomerchandisemanagement.controller;
 
 import com.example.demomerchandisemanagement.form.LoginForm;
+import com.example.demomerchandisemanagement.service.LoginService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
-    // 仮の定数
-    private static final String LOGIN_ID = "user";
-    private static final String PASSWORD = "pwd";
+    private final LoginService service;
 
     @GetMapping("/login")
     public String view(Model model, LoginForm form) {
@@ -19,7 +20,9 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(Model model, LoginForm form) {
-        var isCorrentUserAuth = form.getLoginId().equals(LOGIN_ID) && form.getPassword().equals(PASSWORD);
+        var userInfo = service.searchUserById(form.getLoginId());
+        var isCorrentUserAuth = userInfo.isPresent()
+                && form.getPassword().equals(userInfo.get().getPassword());
         if (isCorrentUserAuth) {
             return "redirect:/menu";
         } else {

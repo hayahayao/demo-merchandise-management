@@ -8,5 +8,5 @@
 
 - Java 17
 - Springboot 3
-- HTML(Thymeleaf)
-- MySQL
+- Thymeleaf: HTML
+- Spring Data JPA: Database(MySQL)

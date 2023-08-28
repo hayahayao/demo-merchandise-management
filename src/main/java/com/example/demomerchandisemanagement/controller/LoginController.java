@@ -1,6 +1,6 @@
 package com.example.demomerchandisemanagement.controller;
 
-import com.example.demomerchandisemanagement.constant.ErrorMessageConst;
+import com.example.demomerchandisemanagement.constant.MessageConst;
 import com.example.demomerchandisemanagement.form.LoginForm;
 import com.example.demomerchandisemanagement.service.LoginService;
 import com.example.demomerchandisemanagement.util.AppUtil;
@@ -64,7 +64,7 @@ public class LoginController {
             return "redirect:/menu";
         } else {
             // エラーメッセージはプロバティファイルで管理する
-            var errorMsg = AppUtil.getMessage(messageSource, ErrorMessageConst.LOGIN_WRONG_INPUT);
+            var errorMsg = AppUtil.getMessage(messageSource, MessageConst.LOGIN_WRONG_INPUT);
             model.addAttribute("errorMsg", errorMsg);
             return "login";
         }

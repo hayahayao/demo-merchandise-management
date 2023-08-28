@@ -1,6 +1,7 @@
 package com.example.demomerchandisemanagement.controller;
 
 import com.example.demomerchandisemanagement.constant.MessageConst;
+import com.example.demomerchandisemanagement.constant.SignupMessage;
 import com.example.demomerchandisemanagement.entity.UserInfo;
 import com.example.demomerchandisemanagement.form.SignupForm;
 import com.example.demomerchandisemanagement.service.SignupService;
@@ -53,11 +54,12 @@ public class SignupController {
     @PostMapping("/signup")
     public void signup(Model model, SignupForm form) {
         var userInfoOpt = service.resistUserInfo(form);
-        var message = AppUtil.getMessage(messageSource, judgeMessageKey(userInfoOpt));
-        model.addAttribute("message", message);
 
-        // disable button
-        model.addAttribute("disabled", true);
+        var signupMessage = judgeMessageKey(userInfoOpt);
+        var messageId = AppUtil.getMessage(messageSource, signupMessage.getMessageId());
+        
+        model.addAttribute("message", messageId);
+        model.addAttribute("isError", signupMessage.isError());
     }
 
     /**
@@ -66,12 +68,12 @@ public class SignupController {
      * @param userInfoOpt ユーザ情報登録結果(登録済みだった場合はEmpty)
      * @return メッセージキー
      */
-    private String judgeMessageKey(Optional<UserInfo> userInfoOpt) {
+    private SignupMessage judgeMessageKey(Optional<UserInfo> userInfoOpt) {
         if (userInfoOpt.isEmpty()) {
             // IDが重複の場合
-            return MessageConst.SIGNUP_EXISTED_LOGIN_ID;
+            return SignupMessage.EXISTED_LOGIN_ID;
         } else {
-            return MessageConst.SIGNUP_RESIST_SUCCEED;
+            return SignupMessage.SUCCEED;
         }
     }
 }

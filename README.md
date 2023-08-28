@@ -11,4 +11,3 @@
 - Thymeleaf: HTML
 - Spring Data JPA: Database(MySQL)
 - Spring Security: Password
-- Dozer: mapping

@@ -3,6 +3,7 @@ package com.example.demomerchandisemanagement.controller;
 import com.example.demomerchandisemanagement.form.LoginForm;
 import com.example.demomerchandisemanagement.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,11 @@ public class LoginController {
      * ログイン画面 service
      */
     private final LoginService service;
+
+    /**
+     * PasswordEncoder
+     */
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 初期表示
@@ -42,9 +48,10 @@ public class LoginController {
     @PostMapping("/login")
     public String login(Model model, LoginForm form) {
         var userInfo = service.searchUserById(form.getLoginId());
-        // TODO パスワードはハッシュ化したものを使用する
+        // パスワードはハッシュ化
+        var encodePassword = passwordEncoder.encode(form.getPassword());
         var isCorrentUserAuth = userInfo.isPresent()
-                && form.getPassword().equals(userInfo.get().getPassword());
+                && passwordEncoder.matches(form.getPassword(), userInfo.get().getPassword());
         if (isCorrentUserAuth) {
             return "redirect:/menu";
         } else {

@@ -10,4 +10,4 @@
 - Springboot 3
 - Thymeleaf: HTML
 - Spring Data JPA: Database(MySQL)
-- Spring Security: Password
+- Spring Security: Validation

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -47,19 +49,35 @@ public class SignupController {
     /**
      * ユーザー登録
      *
-     * @param model モデル
-     * @param form  入力情報
+     * @param model    モデル
+     * @param form     入力情報
+     * @param bdResult 入力チェック結果
      * @return 表示画面
      */
     @PostMapping("/signup")
-    public void signup(Model model, SignupForm form) {
+    public void signup(Model model, @Validated SignupForm form, BindingResult bdResult) {
+        if (bdResult.hasErrors()) {
+            editGuideMessage(model, MessageConst.FORM_ERROR, true);
+            return;
+        }
+
         var userInfoOpt = service.resistUserInfo(form);
 
         var signupMessage = judgeMessageKey(userInfoOpt);
-        var messageId = AppUtil.getMessage(messageSource, signupMessage.getMessageId());
-        
-        model.addAttribute("message", messageId);
-        model.addAttribute("isError", signupMessage.isError());
+        editGuideMessage(model, signupMessage.getMessageId(), signupMessage.isError());
+    }
+
+    /**
+     * 画面に表示するガイドメッセージを設定する
+     *
+     * @param model       モデル
+     * @param messssageId メッセージID
+     * @param isError     エラー有無
+     */
+    private void editGuideMessage(Model model, String messssageId, boolean isError) {
+        var message = AppUtil.getMessage(messageSource, messssageId);
+        model.addAttribute("message", message);
+        model.addAttribute("isError", isError);
     }
 
     /**

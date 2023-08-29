@@ -25,7 +25,7 @@ public class SignupService {
     /**
      * PasswordEncoder
      */
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * ユーザ情報テーブル　主キー検索

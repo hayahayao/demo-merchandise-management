@@ -8,6 +8,6 @@
 
 - Java 17
 - Springboot 3
-- Thymeleaf: HTML
-- Spring Data JPA: Database(MySQL)
-- Spring Security: Validation
+    - Thymeleaf: HTML template
+    - Spring Data JPA: Database(MySQL) access
+    - Spring Security: Authentication & Access-control

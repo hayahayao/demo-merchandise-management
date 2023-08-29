@@ -4,6 +4,7 @@ import com.example.demomerchandisemanagement.entity.UserInfo;
 import com.example.demomerchandisemanagement.form.SignupForm;
 import com.example.demomerchandisemanagement.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class SignupService {
     /**
      * PasswordEncoder
      */
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * ユーザ情報テーブル　主キー検索

@@ -2,6 +2,7 @@ package com.example.demomerchandisemanagement.controller;
 
 import com.example.demomerchandisemanagement.constant.MessageConst;
 import com.example.demomerchandisemanagement.constant.SignupMessage;
+import com.example.demomerchandisemanagement.constant.UrlConst;
 import com.example.demomerchandisemanagement.entity.UserInfo;
 import com.example.demomerchandisemanagement.form.SignupForm;
 import com.example.demomerchandisemanagement.service.SignupService;
@@ -41,7 +42,7 @@ public class SignupController {
      * @param form  入力情報
      * @return 表示画面
      */
-    @GetMapping("/signup")
+    @GetMapping(UrlConst.SIGNUP)
     public String view(Model model, SignupForm form) {
         return "signup";
     }
@@ -54,7 +55,7 @@ public class SignupController {
      * @param bdResult 入力チェック結果
      * @return 表示画面
      */
-    @PostMapping("/signup")
+    @PostMapping(UrlConst.SIGNUP)
     public void signup(Model model, @Validated SignupForm form, BindingResult bdResult) {
         if (bdResult.hasErrors()) {
             editGuideMessage(model, MessageConst.FORM_ERROR, true);

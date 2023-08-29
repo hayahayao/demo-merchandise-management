@@ -1,11 +1,13 @@
 package com.example.demomerchandisemanagement.controller;
 
 import com.example.demomerchandisemanagement.constant.MessageConst;
+import com.example.demomerchandisemanagement.constant.UrlConst;
 import com.example.demomerchandisemanagement.form.LoginForm;
 import com.example.demomerchandisemanagement.service.LoginService;
 import com.example.demomerchandisemanagement.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +29,7 @@ public class LoginController {
     /**
      * PasswordEncoder
      */
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * メッセージソース
@@ -41,7 +43,7 @@ public class LoginController {
      * @param form  入力情報
      * @return 表示画面
      */
-    @GetMapping("/login")
+    @GetMapping(UrlConst.LOGIN)
     public String view(Model model, LoginForm form) {
         return "login";
     }
@@ -53,7 +55,7 @@ public class LoginController {
      * @param form  入力情報
      * @return 表示画面
      */
-    @PostMapping("/login")
+    @PostMapping(UrlConst.LOGIN)
     public String login(Model model, LoginForm form) {
         var userInfo = service.searchUserById(form.getLoginId());
         // パスワードはハッシュ化
